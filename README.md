@@ -31,12 +31,12 @@ Main Category:
 ```
 
 ## Recommended Use Case
-This extension is especially useful for using LoRA. Since most LoRA require **trigger works**, you can create a new `.yml` specifically for LoRAs, and add entries like this:
+This extension is especially useful for using LoRA. Since most LoRA require **trigger words**, you can create a new `.yml` specifically for LoRAs, and add entries like:
 ```yml
 Character:
   Mana: nagase mana, idol, <lora:mana:0.75>
 ```
-Now, you only need to press the `Mana` button then this extension will add the trigger words along with LoRA syntax for you.
+Now, you only need to click the `Mana` button then this extension will add the trigger words along with LoRA syntax for you.
 
-### Original Tutorial (Japanese)
+## Original Tutorial (Japanese)
 - [使い方(暫定)](https://blue-pen5805.fanbox.cc/posts/5306601)

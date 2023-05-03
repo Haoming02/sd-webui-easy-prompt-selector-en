@@ -1,3 +1,42 @@
-# Easy Prompt Selector
+# Easy Prompt Selector - EN
+This is a fork of the original script, featuring English translations of the buttons.
 
-[使い方(暫定)](https://blue-pen5805.fanbox.cc/posts/5306601)
+## How to Use
+Click the `Easy Prompt` button under `Styles` to open its own container. Here, you can select between each categories.
+Then, click the tags to add them into the prompt field. You can also toggle `Add to Negative` to add the tags to Negative Prompt instead.
+
+## How to Add Entry
+The tags are loaded from the `.yml` files inside the `tags` folder. There are a few ways to write entries:
+
+- Category with Tags
+```
+Main Category:
+  - tag
+  - tag
+```
+
+- Sub-Categories within Category
+```
+Main Category:
+  Sub Category:
+    - tag
+  Sub Category:
+    - tag
+```
+
+- Tags Shortcut
+```
+Main Category:
+  Name: tags, tags, tags
+```
+
+## Recommended Use Case
+This extension is especially useful for using LoRA. Since most LoRA require **trigger works**, you can create a new `.yml` specifically for LoRAs, and add entries like this:
+```
+Character:
+  Mana: nagase mana, idol, <lora:mana:0.75>
+```
+Now, you only need to press the `Mana` button then this extension will add the trigger words along with LoRA syntax for you.
+
+### Original Tutorial (Japanese)
+- [使い方(暫定)](https://blue-pen5805.fanbox.cc/posts/5306601)

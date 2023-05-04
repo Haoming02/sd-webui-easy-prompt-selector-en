@@ -2,8 +2,10 @@
 This is a fork of the original script, an Extension for the [Automatic1111 Webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui), now with English translations of the buttons.
 
 ## How to Use
-Click the `Easy Prompt` button under `Styles` to open its own container. Here, you can select between each categories.
+Click the purple `🔯` button under **Generate** to open its own container. Here, you can select between each categories.
 Then, click the tags to add them into the prompt field. You can also toggle `Add to Negative` to add the tags to Negative Prompt instead.
+
+**Note:** Right now only works in `txt2img`
 
 ## How to Add Entry
 The tags are loaded from the `.yml` files inside the `tags` folder. There are a few ways to write entries:

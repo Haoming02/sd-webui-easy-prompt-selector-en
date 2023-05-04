@@ -3,7 +3,8 @@ This is a fork of the original script, an Extension for the [Automatic1111 Webui
 
 ## How to Use
 Click the purple `🔯` button under **Generate** to open its own container. Here, you can select between each categories.
-Then, click the tags to add them into the prompt field. You can also toggle `Add to Negative` to add the tags to Negative Prompt instead.
+Then, left-click the tag to add it into the prompt field; right-click the tag to remove it from the prompt field.
+You can also toggle `Add to Negative` to add the tags to Negative Prompt instead.
 
 **Note:** Right now only works in `txt2img`
 

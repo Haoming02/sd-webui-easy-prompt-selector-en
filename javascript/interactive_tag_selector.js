@@ -1,17 +1,9 @@
 class ITSElementBuilder {
     // Templates
-    static baseButton(text, { size = 'sm', color = 'primary' }) {
-        const button = gradioApp().getElementById('txt2img_generate').cloneNode()
-        button.id = ''
-        button.classList.remove('gr-button-lg', 'gr-button-primary', 'lg', 'primary')
-        button.classList.add(
-            // gradio 3.16
-            `gr-button-${size}`,
-            `gr-button-${color}`,
-            // gradio 3.22
-            size,
-            color
-        )
+    static baseButton(text) {
+        const button = gradioApp().getElementById('paste').cloneNode()
+        button.id = 'ez'
+        button.title = 'EZ Prompt Selector'
         button.textContent = text
 
         return button
@@ -36,8 +28,7 @@ class ITSElementBuilder {
 
     // Elements
     static openButton({ onClick }) {
-        const button = ITSElementBuilder.baseButton('🔯 Easy Prompt', { size: 'sm', color: 'secondary' })
-        button.style = 'margin-top: 0.5rem;'
+        const button = ITSElementBuilder.baseButton('🔯')
         button.addEventListener('click', onClick)
 
         return button
@@ -314,7 +305,7 @@ onUiLoaded(async () => {
         }
     })
 
-    const txt2imgActionColumn = gradioApp().getElementById('txt2img_actions_column')
+    const txt2imgActionColumn = gradioApp().getElementById('txt2img_tools').querySelector('.form')
     txt2imgActionColumn.appendChild(button)
 
     gradioApp()

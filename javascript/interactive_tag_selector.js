@@ -1,26 +1,26 @@
 class ITSElementBuilder {
-    // Templates
+
     static baseButton(text, { size = 'sm', color = 'primary' }) {
         const button = gradioApp().getElementById('txt2img_generate').cloneNode()
-        button.id = ''
+        button.removeAttribute('id')
+
         button.classList.remove('gr-button-lg', 'gr-button-primary', 'lg', 'primary')
         button.classList.add(
-            // gradio 3.16
             `gr-button-${size}`,
             `gr-button-${color}`,
-            // gradio 3.22
             size,
             color
         )
-        button.textContent = text
 
+        button.textContent = text
         return button
     }
 
     static mainButton(text) {
         const button = gradioApp().getElementById('paste').cloneNode()
-        button.id = 'ez'
-        button.title = 'EZ Prompt Selector'
+
+        button.removeAttribute('id')
+        button.removeAttribute('title')
         button.textContent = text
 
         return button
@@ -28,6 +28,7 @@ class ITSElementBuilder {
 
     static tagFields() {
         const fields = document.createElement('div')
+
         fields.style.display = 'flex'
         fields.style.flexDirection = 'row'
         fields.style.flexWrap = 'wrap'
@@ -43,7 +44,6 @@ class ITSElementBuilder {
         return fields
     }
 
-    // Elements
     static openButton({ onClick }) {
         const button = ITSElementBuilder.mainButton('🔯')
         button.addEventListener('click', onClick)
@@ -51,7 +51,7 @@ class ITSElementBuilder {
         return button
     }
 
-    static areaContainer(id = undefined) {
+    static areaContainer(id = '') {
         const container = gradioApp().getElementById('txt2img_results').cloneNode()
         container.id = id
         container.style.gap = 0
@@ -104,6 +104,7 @@ class ITSElementBuilder {
         label.style.alignItems = 'center'
 
         const checkbox = gradioApp().querySelector('input[type=checkbox]').cloneNode()
+        checkbox.checked = false
         checkbox.addEventListener('change', (event) => {
             onChange(event.target.checked)
         })
@@ -313,19 +314,28 @@ class InteractiveTagSelector {
 onUiLoaded(async () => {
     yaml = window.jsyaml
     const interactiveTagSelector = new InteractiveTagSelector(yaml, gradioApp())
+    const extraNetwork = document.getElementById('txt2img_extra_networks')
     await interactiveTagSelector.init()
 
     const button = ITSElementBuilder.openButton({
         onClick: () => {
+            if (extraNetwork.classList.contains('secondary-down'))
+                extraNetwork.dispatchEvent(new Event('click'))
             const tagArea = gradioApp().querySelector(`#${interactiveTagSelector.AREA_ID}`)
             interactiveTagSelector.changeVisibility(tagArea, interactiveTagSelector.visible = !interactiveTagSelector.visible)
         }
     })
 
+    extraNetwork.addEventListener('click',
+        () => {
+            const selector = document.getElementById('interactive-tag-selector')
+            if (selector.style.display != 'none')
+                button.dispatchEvent(new Event('click'))
+        }
+    )
+
     const txt2imgActionColumn = gradioApp().getElementById('txt2img_tools').querySelector('.form')
     txt2imgActionColumn.appendChild(button)
 
-    gradioApp()
-        .getElementById('txt2img_toprow')
-        .after(interactiveTagSelector.render())
+    gradioApp().getElementById('txt2img_toprow').after(interactiveTagSelector.render())
 })

@@ -1,27 +1,23 @@
-class ITSElementBuilder {
+class LeSelector {
 
     static baseButton(text, { size = 'sm', color = 'primary' }) {
         const button = gradioApp().getElementById('txt2img_generate').cloneNode()
+
         button.removeAttribute('id')
-
         button.classList.remove('gr-button-lg', 'gr-button-primary', 'lg', 'primary')
-        button.classList.add(
-            `gr-button-${size}`,
-            `gr-button-${color}`,
-            size,
-            color
-        )
-
+        button.classList.add(`gr-button-${size}`, `gr-button-${color}`, size, color)
         button.textContent = text
+
         return button
     }
 
-    static mainButton(text) {
+    static openButton({ onClick }) {
         const button = gradioApp().getElementById('paste').cloneNode()
 
         button.removeAttribute('id')
         button.removeAttribute('title')
-        button.textContent = text
+        button.textContent = '🔯'
+        button.addEventListener('click', onClick)
 
         return button
     }
@@ -44,15 +40,9 @@ class ITSElementBuilder {
         return fields
     }
 
-    static openButton({ onClick }) {
-        const button = ITSElementBuilder.mainButton('🔯')
-        button.addEventListener('click', onClick)
-
-        return button
-    }
-
     static areaContainer(id = '') {
         const container = gradioApp().getElementById('txt2img_results').cloneNode()
+
         container.id = id
         container.style.gap = 0
         container.style.display = 'none'
@@ -61,7 +51,8 @@ class ITSElementBuilder {
     }
 
     static tagButton({ title, onClick, onRightClick, color = 'primary' }) {
-        const button = ITSElementBuilder.baseButton(title, { color })
+        const button = LeSelector.baseButton(title, { color })
+
         button.style.height = '2rem'
         button.style.flexGrow = '0'
         button.style.margin = '2px'
@@ -100,16 +91,17 @@ class ITSElementBuilder {
 
     static checkbox(text, { onChange }) {
         const label = document.createElement('label')
+        const checkbox = gradioApp().querySelector('input[type=checkbox]').cloneNode()
+        const span = document.createElement('span')
+
         label.style.display = 'flex'
         label.style.alignItems = 'center'
 
-        const checkbox = gradioApp().querySelector('input[type=checkbox]').cloneNode()
         checkbox.checked = false
         checkbox.addEventListener('change', (event) => {
             onChange(event.target.checked)
         })
 
-        const span = document.createElement('span')
         span.style.marginLeft = 'var(--size-2, 8px)'
         span.textContent = text
 
@@ -176,15 +168,16 @@ class InteractiveTagSelector {
         row.appendChild(dropDown)
 
         const settings = document.createElement('div')
-        const checkbox = ITSElementBuilder.checkbox('Add to Negative', {
+        const checkbox = LeSelector.checkbox('Add to Negative', {
             onChange: (checked) => { this.toNegative = checked }
         })
+
         settings.style.flex = '1'
         settings.appendChild(checkbox)
 
         row.appendChild(settings)
 
-        const container = ITSElementBuilder.areaContainer(this.AREA_ID)
+        const container = LeSelector.areaContainer(this.AREA_ID)
 
         container.appendChild(row)
         container.appendChild(this.renderContent())
@@ -193,7 +186,7 @@ class InteractiveTagSelector {
     }
 
     renderDropdown() {
-        const dropDown = ITSElementBuilder.dropDown(
+        const dropDown = LeSelector.dropDown(
             this.SELECT_ID,
             Object.keys(this.tags), {
             onChange: (selected) => {
@@ -216,7 +209,7 @@ class InteractiveTagSelector {
         Object.keys(this.tags).forEach((key) => {
             const values = this.tags[key]
 
-            const fields = ITSElementBuilder.tagFields()
+            const fields = LeSelector.tagFields()
             fields.id = `interactive-tag-selector-container-${key}`
             fields.style.display = 'none'
             fields.style.flexDirection = 'row'
@@ -242,12 +235,12 @@ class InteractiveTagSelector {
 
                 if (typeof values === 'string') { return this.renderTagButton(key, values, 'secondary') }
 
-                const fields = ITSElementBuilder.tagFields()
+                const fields = LeSelector.tagFields()
                 fields.style.flexDirection = 'column'
 
                 fields.append(this.renderTagButton(key, `@${randomKey}@`))
 
-                const buttons = ITSElementBuilder.tagFields()
+                const buttons = LeSelector.tagFields()
                 buttons.id = 'buttons'
                 fields.append(buttons)
                 this.renderTagButtons(values, randomKey).forEach((button) => {
@@ -260,7 +253,7 @@ class InteractiveTagSelector {
     }
 
     renderTagButton(title, value, color = 'primary') {
-        return ITSElementBuilder.tagButton({
+        return LeSelector.tagButton({
             title,
             onClick: (e) => {
                 e.preventDefault();
@@ -317,7 +310,7 @@ onUiLoaded(async () => {
     const extraNetwork = document.getElementById('txt2img_extra_networks')
     await interactiveTagSelector.init()
 
-    const button = ITSElementBuilder.openButton({
+    const button = LeSelector.openButton({
         onClick: () => {
             if (extraNetwork.classList.contains('secondary-down'))
                 extraNetwork.dispatchEvent(new Event('click'))

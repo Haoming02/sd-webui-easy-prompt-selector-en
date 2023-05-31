@@ -96,6 +96,17 @@ class Script(scripts.Script):
         return AlwaysVisible
 
     def ui(self, is_img2img):
+        if not is_img2img:
+
+            parameters = ''
+            url = 'https://github.com/Haoming02/sd-webui-easy-tag-insert'
+            label = 'Easy Tag Insert'
+
+            # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST 
+            escape_mask = '\033]8;{};{}\033\\{}\033]8;;\033\\'
+
+            print('\n\n[Note:] Easy Prompt Selector is no longer maintained. Please check out the improved ' + escape_mask.format(parameters, url, label) + ' instead!\n\n')
+
         return None
 
     def replace_template_tags(self, p):
